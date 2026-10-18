@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transportes IberFrío — ВТК в Euro Truck Simulator 2</title>
+<meta name="description" content="Transportes IberFrío — русскоязычная виртуальная транспортная компания в ETS2. Рефрижераторные перевозки из Испании и Португалии по всей Европе. База — Мурсия.">
+<meta property="og:title" content="Transportes IberFrío — ВТК в ETS2">
+<meta property="og:description" content="Температурные грузы из Иберии по всей Европе. Вступай через Discord.">
+<meta property="og:image" content="img/logo.png">
+<link rel="icon" href="img/logo.png">
+<style>
+  :root{
+    --navy:#0B3F7E; --navy-d:#072a55; --navy-dd:#041a36;
+    --red:#C21A30; --ice:#eaf3fb; --ice2:#d6e7f6;
+    --ink:#14213a; --muted:#5b6b82; --card:#ffffff; --line:#d9e3ef;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--ice);line-height:1.55}
+  a{color:var(--navy)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+  /* шапка */
+  header.top{position:sticky;top:0;z-index:20;background:rgba(4,26,54,.92);backdrop-filter:blur(8px);color:#fff}
+  header.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+  .brand img{width:40px;height:40px;border-radius:8px;background:#fff;object-fit:contain}
+  .brand b{color:#ff6b7d;font-weight:800}
+  nav.menu{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+  nav.menu a{color:#cfe0f5;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:15px}
+  nav.menu a:hover{background:rgba(255,255,255,.1);color:#fff}
+  .burger{display:none;margin-left:auto;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:6px 10px;font-size:18px}
+
+  /* первый экран */
+  .hero{background:radial-gradient(1200px 500px at 80% -10%,#1d5fae 0%,transparent 60%),linear-gradient(160deg,var(--navy-dd),var(--navy) 70%);color:#fff;padding:64px 0 72px;position:relative;overflow:hidden}
+  .hero::after{content:"❄";position:absolute;right:-40px;bottom:-90px;font-size:380px;opacity:.06;line-height:1}
+  .hero .wrap{display:grid;grid-template-columns:1.3fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:46px;line-height:1.1;margin:0 0 10px}
+  .hero h1 .r{color:#ff6b7d}
+  .hero .sub{font-size:20px;color:#cfe0f5;margin:0 0 22px}
+  .hero p{color:#dbe7f6;max-width:560px}
+  .hero .logo{background:#fff;border-radius:24px;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+  .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;border:2px solid transparent}
+  .btn.main{background:var(--red);color:#fff}
+  .btn.main:hover{background:#a8132a}
+  .btn.ghost{border-color:rgba(255,255,255,.5);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.1)}
+  .facts{display:flex;gap:26px;flex-wrap:wrap;margin-top:30px;color:#cfe0f5;font-size:14px}
+  .facts b{display:block;color:#fff;font-size:22px}
+
+  section{padding:64px 0}
+  section.alt{background:#fff}
+  h2{font-size:32px;margin:0 0 8px;color:var(--navy-dd)}
+  .lead{color:var(--muted);margin:0 0 30px;max-width:760px}
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g5{grid-template-columns:repeat(5,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  section.alt .card{background:var(--ice)}
+  .card h3{margin:0 0 6px;color:var(--navy)}
+  .tag{display:inline-block;font-size:12px;font-weight:700;background:var(--ice2);color:var(--navy);padding:3px 8px;border-radius:20px;margin:2px 4px 2px 0}
+  .tag.red{background:#fde3e7;color:var(--red)}
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:6px 0 6px 26px;position:relative}
+  ul.clean li::before{content:"❄";position:absolute;left:0;color:var(--navy);font-size:14px;top:7px}
+
+  /* цикл работы */
+  .cycle{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch}
+  .cycle .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center}
+  .cycle .step .ico{font-size:34px}
+  .cycle .arrow{align-self:center;font-size:28px;color:var(--red);font-weight:800}
+
+  /* направления */
+  .dir .flag{font-size:30px}
+  .dir small{color:var(--muted)}
+  .dir .dlc{margin-top:10px}
+
+  /* автопарк */
+  .tabs{display:flex;gap:8px;margin-bottom:20px}
+  .tabs button{border:2px solid var(--navy);background:#fff;color:var(--navy);padding:9px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px}
+  .tabs button.on{background:var(--navy);color:#fff}
+  .fleet{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .fleet figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:zoom-in}
+  .fleet img{aspect-ratio:16/10;object-fit:cover;width:100%;transition:transform .3s}
+  .fleet figure:hover img{transform:scale(1.04)}
+  .fleet figcaption{padding:10px 14px;font-weight:700;color:var(--navy-dd)}
+  .fleet figcaption small{display:block;font-weight:400;color:var(--muted)}
+  .note{background:#fff7e6;border:1px solid #f3d9a4;border-radius:12px;padding:14px 16px;margin-top:20px}
+  dialog{border:none;padding:0;border-radius:14px;max-width:min(1100px,94vw);background:#000}
+  dialog::backdrop{background:rgba(0,0,0,.8)}
+  dialog img{max-height:86vh;width:auto}
+  dialog p{color:#fff;margin:0;padding:10px 14px;font-weight:700}
+
+  /* правила */
+  ol.rules{margin:0;padding-left:22px} ol.rules li{margin:6px 0}
+  .ranks{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .rank{padding:8px 14px;border-radius:10px;font-weight:700;color:#fff}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  .steps li{counter-increment:s;padding:10px 0 10px 46px;position:relative;border-bottom:1px dashed var(--line)}
+  .steps li:last-child{border-bottom:0}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+  /* статистика */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .stat{background:linear-gradient(160deg,var(--navy),var(--navy-d));color:#fff;border-radius:var(--radius);padding:20px}
+  .stat b{display:block;font-size:30px;line-height:1.1}
+  .stat span{color:#cfe0f5;font-size:14px}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+  th{background:var(--ice2);color:var(--navy-dd)}
+  .muted{color:var(--muted)}
+  .tablewrap{overflow-x:auto}
+
+  /* ссылки */
+  .links{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .links a{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;color:var(--ink)}
+  .links a:hover{border-color:var(--navy);box-shadow:0 8px 24px rgba(11,63,126,.12)}
+  .links a b{display:block;color:var(--navy);font-size:18px;margin-bottom:4px}
+
+  .cta{background:linear-gradient(135deg,var(--red),#8e0f22);color:#fff;border-radius:20px;padding:34px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .cta h2{color:#fff;margin:0}
+  .cta .btn{background:#fff;color:var(--red)}
+
+  footer{background:var(--navy-dd);color:#9fb6d3;padding:30px 0;font-size:14px}
+  footer a{color:#cfe0f5}
+
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr} .hero .logo{max-width:260px}
+    .hero h1{font-size:36px}
+    .g3,.g5,.fleet,.links,.stats{grid-template-columns:repeat(2,1fr)}
+    .g2{grid-template-columns:1fr}
+    .cycle{grid-template-columns:1fr} .cycle .arrow{transform:rotate(90deg);justify-self:center}
+    nav.menu{display:none;position:absolute;top:64px;left:0;right:0;background:var(--navy-dd);flex-direction:column;padding:10px 20px}
+    nav.menu.open{display:flex}
+    .burger{display:block}
+  }
+  @media (max-width:560px){
+    .g3,.g5,.fleet,.links,.stats{grid-template-columns:1fr}
+    section{padding:48px 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/logo.png" alt=""><span>Transportes Iber<b>Frío</b></span></a>
+    <button class="burger" aria-label="Меню" onclick="document.querySelector('nav.menu').classList.toggle('open')">☰</button>
+    <nav class="menu" onclick="this.classList.remove('open')">
+      <a href="#about">О компании</a>
+      <a href="#routes">Направления</a>
+      <a href="#fleet">Автопарк</a>
+      <a href="#rules">Правила</a>
+      <a href="#join">Вступить</a>
+      <a href="#stats">Статистика</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <h1>Transportes Iber<span class="r">Frío</span></h1>
+      <p class="sub">Температурные грузы из Иберии по всей Европе</p>
+      <p>Русскоязычная виртуальная транспортная компания в Euro Truck Simulator 2. Наша база — Мурсия, Испания. Возим рефрижераторные грузы из Испании и Португалии на главные рынки Европы — в одиночной игре и на TruckersMP.</p>
+      <div class="btns">
+        <a class="btn main" href="https://discord.gg/TuZkNdxXm8" target="_blank" rel="noopener">Вступить через Discord</a>
+        <a class="btn ghost" href="#fleet">Наш автопарк</a>
+      </div>
+      <div class="facts">
+        <div><b>Мурсия</b>база компании</div>
+        <div><b>5</b>направлений</div>
+        <div><b>[IBF]</b>тег на TruckersMP</div>
+      </div>
+    </div>
+    <img class="logo" src="img/logo.png" alt="Логотип Transportes IberFrío">
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <h2>О компании</h2>
+    <p class="lead">Мы связываем производителей Испании и Португалии с рынками всей Европы. Основная специализация — рефрижераторные перевозки.</p>
+    <div class="grid g3">
+      <div class="card"><h3>🥬 Что возим</h3><p>Овощи и фрукты, мясо, молочные продукты, рыбу, напитки и заморозку.</p></div>
+      <div class="card"><h3>💊 А также</h3><p>Фармацевтику, опасные грузы (ADR) и дорогие грузы: технику, телеком, промышленное и косметическое оборудование.</p></div>
+      <div class="card"><h3>📊 Учёт рейсов</h3><p>Все рейсы записываются в TrucksBook и автоматически публикуются в нашем Discord.</p></div>
+    </div>
+
+    <h3 style="margin:40px 0 14px;color:var(--navy-dd)">Как мы работаем</h3>
+    <div class="cycle">
+      <div class="step"><div class="ico">📦</div><b>Погрузка</b><p class="muted">в Испании или Португалии</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">🏁</div><b>Выгрузка</b><p class="muted">в стране своего направления</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="ico">↩️</div><b>Обратный груз</b><p class="muted">домой — его подбирает диспетчер</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="routes" class="alt">
+  <div class="wrap">
+    <h2>Направления</h2>
+    <p class="lead">Каждый водитель при вступлении выбирает одно направление. Сменить его можно через диспетчера. Для всех обязательны DLC <b>Iberia</b> и <b>Vive la France!</b></p>
+    <div class="grid g5">
+      <div class="card dir"><div class="flag">⛴️</div><h3>Великобритания</h3><small>Иберия — Великобритания</small><div class="dlc"><span class="tag">Без доп. DLC</span></div></div>
+      <div class="card dir"><div class="flag">❄️</div><h3>Скандинавия</h3><small>Норвегия, Швеция, Финляндия</small><div class="dlc"><span class="tag">Scandinavia</span><span class="tag">Beyond the Baltic Sea</span></div></div>
+      <div class="card dir"><div class="flag">🏔️</div><h3>Балканы</h3><small>Балканские страны, Турция, Греция</small><div class="dlc"><span class="tag">West Balkans</span><span class="tag">Road to the Black Sea</span><span class="tag">Greece</span></div></div>
+      <div class="card dir"><div class="flag">🌲</div><h3>Балтика и Россия</h3><small>Литва, Латвия, Эстония, Россия</small><div class="dlc"><span class="tag">Beyond the Baltic Sea</span></div></div>
+      <div class="card dir"><div class="flag">🏭</div><h3>Центральная Европа</h3><small>Германия, Польша, Чехия, Бенилюкс, Швейцария, Австрия, Италия</small><div class="dlc"><span class="tag">Без доп. DLC</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="fleet">
+  <div class="wrap">
+    <h2>Автопарк</h2>
+    <p class="lead">Ездить можно только на этих тягачах и рефрижераторах — в фирменной окраске IberFrío и с тюнингом, как на фото. Мод окраски выдаётся водителям в Discord.</p>
+    <div class="tabs">
+      <button class="on" data-t="trucks">Тягачи (9)</button>
+      <button data-t="trailers">Рефрижераторы (6)</button>
+    </div>
+    <div class="fleet" id="fleetGrid"></div>
+    <div class="note">🎨 Окраска выбирается на СТО в разделе «Цвета» — «IberFrío — надпись» (тягач) или «IberFrío — логотип» (реф). На Volvo FH5 и FH6 надпись «IberFrío» выбирается отдельно в тюнинге кабины.</div>
+  </div>
+</section>
+
+<section id="rules" class="alt">
+  <div class="wrap">
+    <h2>Правила</h2>
+    <div class="grid g2">
+      <div class="card">
+        <ol class="rules">
+          <li>Уважайте друг друга. Без оскорблений, политики и спама. Решения директора и диспетчеров обязательны.</li>
+          <li>Все рейсы записываются через TrucksBook.</li>
+          <li>Минимум <b>один круг в месяц</b>: туда из Испании или Португалии и обратный груз домой.</li>
+          <li>Фирменная окраска IberFrío обязательна. Тягач и рефрижератор — только из нашего автопарка, тюнинг — как на фото.</li>
+          <li>На TruckersMP соблюдайте их правила. Бан в TMP — повод для разбирательства в компании.</li>
+          <li>В конвое держим дистанцию, не обгоняем ведущего и слушаем его в голосовом канале.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Звания</h3>
+        <div class="ranks">
+          <span class="rank" style="background:#9AA0A6">Стажёр</span> →
+          <span class="rank" style="background:#5ea8e6">Водитель</span> →
+          <span class="rank" style="background:#3A8DDE">Ветеран</span>
+        </div>
+        <ul class="clean" style="margin-top:14px">
+          <li><b>Водитель</b> — от 5 000 км в TrucksBook и месяц в компании</li>
+          <li><b>Ветеран</b> — от 50 000 км</li>
+        </ul>
+        <h3 style="margin-top:18px">Руководство</h3>
+        <p><span class="tag red">Директор</span><span class="tag">Диспетчер</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <h2>Как вступить</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Требования</h3>
+        <ul class="clean">
+          <li>Лицензионная ETS2 в Steam</li>
+          <li>DLC <b>Iberia</b> и <b>Vive la France!</b> + DLC своего направления</li>
+          <li>Аккаунт и клиент TrucksBook</li>
+          <li>Профиль TruckersMP без активных банов (для конвоев)</li>
+          <li>Discord, русский язык</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Порядок</h3>
+        <ol class="steps">
+          <li>Зайдите в наш Discord и заполните анкету при входе: ник, Steam, TrucksBook, направление, DLC</li>
+          <li>Дождитесь одобрения — диспетчер выдаст роль «Стажёр» и роль направления</li>
+          <li>Вступите в компанию в <a href="https://trucksbook.eu/company/210640" target="_blank" rel="noopener">TrucksBook</a></li>
+          <li>Скачайте мод фирменной окраски и покрасьте тягач и реф</li>
+        </ol>
+      </div>
+    </div>
+    <div class="cta" style="margin-top:26px">
+      <div><h2>Готовы в рейс?</h2><p style="margin:6px 0 0;color:#ffd9de">Анкета заполняется прямо при входе на сервер.</p></div>
+      <a class="btn" href="https://discord.gg/TuZkNdxXm8" target="_blank" rel="noopener">Вступить в Discord</a>
+    </div>
+  </div>
+</section>
+
+<section id="stats" class="alt">
+  <div class="wrap">
+    <h2>Статистика</h2>
+    <p class="lead">Данные ETS2 подгружаются автоматически из <a href="https://hub.truckyapp.com/vtc/iberfrio" target="_blank" rel="noopener">Trucky</a>. Полный журнал рейсов — в <a href="https://trucksbook.eu/company/210640" target="_blank" rel="noopener">TrucksBook</a>.</p>
+    <div class="stats">
+      <div class="stat"><b id="sMonthKm">—</b><span>км в этом месяце</span></div>
+      <div class="stat"><b id="sMonthJobs">—</b><span>доставок в этом месяце</span></div>
+      <div class="stat"><b id="sYearKm">—</b><span>км ETS2 за всё время</span></div>
+      <div class="stat"><b id="sMembers">—</b><span>водителей в компании</span></div>
+    </div>
+    <h3 style="margin:30px 0 12px;color:var(--navy-dd)">Последние рейсы ETS2</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Дата</th><th>Водитель</th><th>Маршрут</th><th>Груз</th><th>Км</th></tr></thead>
+        <tbody id="jobs"><tr><td colspan="5" class="muted">Загрузка…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="links">
+  <div class="wrap">
+    <h2>Мы на других площадках</h2>
+    <div class="links">
+      <a href="https://discord.gg/TuZkNdxXm8" target="_blank" rel="noopener"><b>Discord</b>Сервер компании: анкета, диспетчерская, конвои</a>
+      <a href="https://truckersmp.com/vtc/93072" target="_blank" rel="noopener"><b>TruckersMP</b>Наша ВТК в мультиплеере, тег [IBF]</a>
+      <a href="https://trucksbook.eu/company/210640" target="_blank" rel="noopener"><b>TrucksBook</b>Учёт рейсов компании</a>
+      <a href="https://hub.truckyapp.com/vtc/iberfrio" target="_blank" rel="noopener"><b>Trucky</b>Профиль и таблицы лидеров</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    © Transportes IberFrío — виртуальная транспортная компания в Euro Truck Simulator 2. España · Murcia.<br>
+    Euro Truck Simulator 2 — игра SCS Software. Сайт не связан с SCS Software.
+  </div>
+</footer>
+
+<dialog id="viewer" onclick="this.close()"><img id="vImg" alt=""><p id="vCap"></p></dialog>
+
+<script>
+const FLEET = {
+  trucks: [
+    ["01_scania_s.jpg","Scania S",""],
+    ["02_renault_t.jpg","Renault T",""],
+    ["03_mercedes_actros.jpg","Mercedes-Benz Actros",""],
+    ["04_man_tgx_2020.jpg","MAN TGX (2020)",""],
+    ["05_daf_xf_euro6.jpg","DAF XF Euro 6",""],
+    ["06_daf_xg.jpg","DAF XG",""],
+    ["07_volvo_fh_2021.jpg","Volvo FH5","надпись — отдельно в тюнинге кабины"],
+    ["08_volvo_fh_2024.jpg","Volvo FH6","надпись — отдельно в тюнинге кабины"],
+    ["09_iveco_s-way.jpg","Iveco S-Way",""]
+  ],
+  trailers: [
+    ["01_krone.jpg","Krone Cool Liner",""],
+    ["02_schmitz.jpg","Schmitz Cargobull S.KO Cool",""],
+    ["03_scs.jpg","Стандартный рефрижератор SCS","есть у всех, DLC не нужно"],
+    ["04_schwarzmuller.jpg","Schwarzmüller",""],
+    ["05_tirsan.jpg","Tirsan SRI",""],
+    ["06_kogel.jpg","Kögel Cool",""]
+  ]
+};
+const grid = document.getElementById('fleetGrid');
+function showFleet(kind){
+  grid.innerHTML = FLEET[kind].map(([f,n,s]) =>
+    `<figure data-src="img/${kind}/${f}" data-cap="${n}"><img loading="lazy" src="img/${kind}/${f}" alt="${n} в окраске IberFrío"><figcaption>${n}${s?`<small>${s}</small>`:''}</figcaption></figure>`).join('');
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === kind));
+}
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => showFleet(b.dataset.t));
+grid.addEventListener('click', e => {
+  const f = e.target.closest('figure'); if (!f) return;
+  document.getElementById('vImg').src = f.dataset.src;
+  document.getElementById('vCap').textContent = f.dataset.cap;
+  document.getElementById('viewer').showModal();
+});
+showFleet('trucks');
+
+// Статистика из открытого API Trucky (компания 34040)
+const API = 'https://e.truckyapp.com/api/v1/company/34040';
+const nf = n => (Math.round(n || 0)).toLocaleString('ru-RU');
+const get = u => fetch(u).then(r => r.ok ? r.json() : Promise.reject(r.status));
+const now = new Date(), m = now.getMonth() + 1, y = now.getFullYear();
+
+get(`${API}/stats/monthly?month=${m}&year=${y}`).then(d => {
+  const e = d.ets2 || {};
+  document.getElementById('sMonthKm').textContent = nf(e.real_km ?? e.total_km);
+  document.getElementById('sMonthJobs').textContent = nf(e.jobs_completed ?? e.total_jobs);
+}).catch(() => {});
+get(`${API}/members`).then(d => {
+  document.getElementById('sMembers').textContent = nf(d.total ?? (d.data || []).length);
+}).catch(() => {});
+get(`${API}/jobs?perPage=100`).then(d => {
+  const ets = (d.data || []).filter(j => j.game_id === 1 && j.status === 'completed');
+  document.getElementById('sYearKm').textContent = nf(ets.reduce((s, j) => s + (j.driven_distance || 0), 0));
+  const rows = ets.slice(0, 8);
+  const tb = document.getElementById('jobs');
+  if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" class="muted">Рейсов ETS2 пока нет — первый рейс появится здесь автоматически.</td></tr>'; return; }
+  tb.innerHTML = rows.map(j => `<tr>
+    <td>${new Date(j.updated_at).toLocaleDateString('ru-RU')}</td>
+    <td>${j.driver && j.driver.name || j.in_game_profile_name || '—'}</td>
+    <td>${j.source_city_name} → ${j.destination_city_name}</td>
+    <td>${j.cargo_name}</td>
+    <td>${nf(j.driven_distance)}</td></tr>`).join('');
+}).catch(() => {
+  document.getElementById('jobs').innerHTML = '<tr><td colspan="5" class="muted">Не удалось загрузить данные Trucky. Смотрите статистику на hub.truckyapp.com.</td></tr>';
+});
+</script>
+</body>
+</html>
